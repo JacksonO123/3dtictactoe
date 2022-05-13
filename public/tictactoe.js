@@ -1,6 +1,6 @@
 const port = 8080;
 // const client = new WebSocket(`ws://localhost:${port}`);
-const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com:${port}`);
+const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
 
 client.onopen = () => {
 	console.log('websocket open');

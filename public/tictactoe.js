@@ -9,6 +9,16 @@ client.onopen = () => {
 client.onmessage = msg => {
 	msg = JSON.parse(msg.data);
 	console.log(msg);
+	switch (msg.req) {
+		case 'stay-alive': {
+			const obj = {
+				req: 'stay-alive'
+			}
+			client.send(JSON.stringify(obj));
+			break;
+		}
+		default: break;
+	}
 }
 
 client.onclose = () => {

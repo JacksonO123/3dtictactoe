@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+		<title>3d Tic Tac Toe</title>
+	</head>
+	<body>
+		<div class="controls">
+			<div class="row">
+				<label for="xd" id="xdeg">X deg: -35</label>
+				<input id="xd" type="range" min="-180" max="180" value="-35" oninput="handleRotateX(+this.value)" />
+			</div>
+			<div class="row">
+				<label for="yd" id="ydeg">Y deg: 35</label>
+				<input id="yd" type="range" min="-180" max="180" value="35" oninput="handleRotateY(+this.value)" />
+			</div>
+			<div class="row">
+				<label for="zd" id="zdeg">Z deg: 0</label>
+				<input id="zd" type="range" min="-180" max="180" value="0" oninput="handleRotateZ(+this.value)" />
+			</div>
+			<hr>
+			<div class="row">
+				<label for="x" id="xl">X: 1</label>
+				<input id="x" type="range" min="0" max="2" value="0" oninput="handleXChange(+this.value)" />
+			</div>
+			<div class="row">
+				<label for="y" id="yl">Y: 1</label>
+				<input id="y" type="range" min="0" max="2" value="0" oninput="handleYChange(+this.value)" />
+			</div>
+			<div class="row">
+				<label for="z" id="zl">Z: 1</label>
+				<input id="z" type="range" min="0" max="2" value="0" oninput="handleZChange(+this.value)" />
+			</div>
+            <hr>
+            <div class="row">
+                <button id="send-btn" onclick="sendInfo()">Send</button>
+            </div>
+		</div>
+		<tic-tac-toe size="200"></tic-tac-toe>
+		<script src="tictactoe.js"></script>
+	</body>
+</html>

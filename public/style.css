@@ -1,0 +1,143 @@
+:root {
+	--empty: #ccc;
+	--blue: #3498db;
+	--orange: #e67e22;
+    --boxBorder: 1px solid black;
+    --primary: #007bff;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+	font-family: sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	perspective: 800px;
+}
+
+tic-tac-toe {
+	transform-style: preserve-3d;
+	transform-origin: center center;
+	animation: 1.5s startRotate ease-in-out;
+	transform: rotateX(-35deg) rotateY(35deg);
+}
+
+three-box {
+	position: absolute;
+	transform-style: preserve-3d;
+	transform-origin: center center;
+}
+
+.front, .back, .left, .right, .top, .bottom {
+	opacity: 0.2;
+    border: var(--boxBorder);
+}
+
+.front {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: var(--empty);
+}
+
+.back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateZ(calc(var(--size) * -1));
+	background: var(--empty);
+}
+
+.left {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: right;
+	transform: rotateY(-90deg);
+	background: var(--empty);
+}
+
+.right {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: left;
+	transform: rotateY(90deg);
+	background: var(--empty);
+}
+
+.top {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: bottom;
+	transform: rotateX(90deg);
+	background: var(--empty);
+}
+
+.bottom {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform-origin: top;
+	transform: rotateX(-90deg);
+	background: var(--empty);
+}
+
+label {
+	width: 85px;
+	text-align: center;
+}
+
+.controls {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 8px;
+	padding: 8px;
+	gap: 8px;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	gap: 6px;
+	margin: 4px;
+}
+
+.selected > * {
+	background: black;
+}
+
+button {
+    padding: 8px 0px;
+    flex: 1 1 auto;
+    border: none;
+    border-radius: 4px;
+    background: white;
+    color: var(--primary);
+    transition: 0.15s;
+    cursor: pointer;
+}
+
+button:hover {
+    background: rgba(0, 123, 255, 0.25);
+}
+
+@keyframes startRotate {
+	from {
+		transform: rotateX(0deg) rotateY(0deg);
+	}
+	to {
+		transform: rotateX(-35deg) rotateY(35deg);
+	}
+}

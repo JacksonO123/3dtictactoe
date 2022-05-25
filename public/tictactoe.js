@@ -1,6 +1,8 @@
 const port = 3000;
-const client = new WebSocket(`ws://localhost:${port}`);
-// const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+// const client = new WebSocket(`ws://localhost:${port}`);
+const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+
+let game = [];
 
 client.onopen = () => {
 	console.log('websocket open');
@@ -8,7 +10,6 @@ client.onopen = () => {
 
 client.onmessage = msg => {
 	msg = JSON.parse(msg.data);
-	console.log(msg);
 	switch (msg.req) {
 		case 'stay-alive': {
 			const obj = {
@@ -16,6 +17,24 @@ client.onmessage = msg => {
 			}
 			client.send(JSON.stringify(obj));
 			break;
+		}
+		case 'too_many_players': {
+			alert('There are too many players, wait until a spot opens up');
+			break;
+		}
+		case 'turn_data': {
+			const controls = get('controls');
+			if (msg.data.turn) {
+				controls.classList.remove('not-turn');
+			} else {
+				if (!controls.classList.contains('not-turn')) {
+					controls.classList.add('not-turn');
+				}
+			}
+			break;
+		}
+		case 'game_data': {
+			game = msg.data.game;
 		}
 		default: break;
 	}
@@ -25,7 +44,65 @@ client.onclose = () => {
 	console.log('websocket closed');
 }
 
-let tempSet = [];
+// -----functions--------------------------->
+
+function sendInfo() {
+	const game = get('game');
+	const posObj = {
+		req: 'play_data',
+		data: {
+			x: game.x,
+			y: game.y,
+			z: game.z
+		}
+	};
+	console.log(posObj);
+	client.send(JSON.stringify(posObj));
+}
+
+function get(id) {
+	return document.getElementById(id);
+}
+
+function h(type) {
+	return document.createElement(type);
+}
+
+function handleRotateX(val) {
+	get('game').xDeg = val;
+	get('game').rotate();
+	get('xdeg').innerHTML = `Y deg: ${val}`;
+}
+
+function handleRotateY(val) {
+	get('game').yDeg = val;
+	get('game').rotate();
+	get('ydeg').innerHTML = `X deg: ${val}`;
+}
+
+function handleRotateZ(val) {
+	get('game').zDeg = val;
+	get('game').rotate();
+	get('zdeg').innerHTML = `Z deg: ${val}`;
+}
+
+function handleXChange(val) {
+	get('game').setX(val);
+	get('xl').innerHTML = `X: ${val + 1}`;
+}
+
+function handleYChange(val) {
+	get('game').setY(val);
+	get('yl').innerHTML = `Y: ${val + 1}`;
+}
+
+function handleZChange(val) {
+	get('game').setZ(val);
+	get('zl').innerHTML = `Z: ${val + 1}`;
+}
+
+// -----ui init----------------------------->
+
 class ThreeBox extends HTMLElement {
 	constructor() {
 		super();
@@ -53,6 +130,7 @@ class ThreeBox extends HTMLElement {
 		this.setSize(front, blockSize);
 		const back = h('div');
 		back.classList.add('back');
+		back.style.transform = `translateZ(${-blockSize}px)`;
 		this.setSize(back, blockSize);
 		this.innerHTML = '';
 		this.appendChild(top);
@@ -132,56 +210,5 @@ class TicTacToe extends HTMLElement {
 	}
 }
 
-const get = (id) => {
-	return document.getElementById(id);
-}
-
-const h = (type) => {
-	return document.createElement(type);
-}
-
-const handleRotateX = (val) => {
-	get('game').xDeg = val;
-	get('game').rotate();
-	get('xdeg').innerHTML = `Y deg: ${val}`;
-}
-
-const handleRotateY = (val) => {
-	get('game').yDeg = val;
-	get('game').rotate();
-	get('ydeg').innerHTML = `X deg: ${val}`;
-}
-
-const handleRotateZ = (val) => {
-	get('game').zDeg = val;
-	get('game').rotate();
-	get('zdeg').innerHTML = `Z deg: ${val}`;
-}
-
-const handleXChange = (val) => {
-	get('game').setX(val);
-	get('xl').innerHTML = `X: ${val + 1}`;
-}
-
-const handleYChange = (val) => {
-	get('game').setY(val);
-	get('yl').innerHTML = `Y: ${val + 1}`;
-}
-
-const handleZChange = (val) => {
-	get('game').setZ(val);
-	get('zl').innerHTML = `Z: ${val + 1}`;
-}
-
 customElements.define('three-box', ThreeBox);
 customElements.define('tic-tac-toe', TicTacToe);
-
-// -----functions--------------------------->
-
-function sendInfo() {
-	const game = get('game');
-	console.log(game.x, game.y, game.z);
-	const posObj = { x: game.x, y: game.y, z: game.z };
-	console.log(posObj);
-	client.send(JSON.stringify(posObj));
-}

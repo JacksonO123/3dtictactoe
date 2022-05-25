@@ -2,8 +2,8 @@
 	--empty: #ccc;
 	--blue: #3498db;
 	--orange: #e67e22;
-    --boxBorder: 1px solid black;
-    --primary: #007bff;
+  --boxBorder: 1px solid black;
+  --primary: #007bff;
 }
 
 * {
@@ -50,7 +50,7 @@ three-box {
 	position: absolute;
 	top: 0;
 	left: 0;
-	transform: translateZ(calc(var(--size) * -1));
+	transform: translate(0, 0, -100px);
 	background: var(--empty);
 }
 
@@ -96,15 +96,39 @@ label {
 }
 
 .controls {
-	display: flex;
-	flex-direction: column;
 	position: absolute;
 	top: 10px;
 	right: 10px;
-	border: 1px solid rgba(0, 0, 0, 0.125);
+	/* border: 1px solid rgba(0, 0, 0, 0.125); */
+	box-shadow: 0 2px 30px rgba(0, 0, 0, 0.125);
 	border-radius: 8px;
-	padding: 8px;
+	overflow: hidden;
+}
+
+.controls .inner-wrapper {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 	gap: 8px;
+	position: relative;
+	padding: 8px;
+}
+
+.inner-wrapper.not-turn::before {
+	content: 'Wait for your turn';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background:rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(4px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 1;
+	animation: fadeIn 0.5s ease-in-out;
 }
 
 .row {
@@ -139,5 +163,23 @@ button:hover {
 	}
 	to {
 		transform: rotateX(-35deg) rotateY(35deg);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
 	}
 }

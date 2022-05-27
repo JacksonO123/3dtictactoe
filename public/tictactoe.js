@@ -15,7 +15,7 @@ client.onmessage = msg => {
 	switch (msg.req) {
 		case 'char': {
 			char = msg.data.char;
-			console.log(char);
+			console.log(msg.data);
 			break;
 		}
 		case 'stay-alive': {
@@ -48,7 +48,7 @@ client.onmessage = msg => {
 					for (let k = 0; k < game[i][j].length; k++) {
 						const cell = get(`${i};${j};${k}`);
 						if (game[i][j][k] != '') {
-							if (char != game[i][j][k]) {
+							if (char == game[i][j][k]) {
 								if (!cell.classList.contains('player')) {
 									cell.classList.add('player');
 								}

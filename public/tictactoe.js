@@ -1,8 +1,9 @@
 const port = 3000;
-// const client = new WebSocket(`ws://localhost:${port}`);
-const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+const client = new WebSocket(`ws://localhost:${port}`);
+// const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
 
 let game = [];
+let char = '';
 
 client.onopen = () => {
 	console.log('websocket open');
@@ -10,7 +11,13 @@ client.onopen = () => {
 
 client.onmessage = msg => {
 	msg = JSON.parse(msg.data);
+	console.log(msg.req);
 	switch (msg.req) {
+		case 'char': {
+			char = msg.data.char;
+			console.log(char);
+			break;
+		}
 		case 'stay-alive': {
 			const obj = {
 				req: 'stay-alive'
@@ -35,6 +42,25 @@ client.onmessage = msg => {
 		}
 		case 'game_data': {
 			game = msg.data.game;
+			console.log(game);
+			for (let i = 0; i < game.length; i++) {
+				for (let j = 0; j < game[i].length; j++) {
+					for (let k = 0; k < game[i][j].length; k++) {
+						const cell = get(`${i};${j};${k}`);
+						if (game[i][j][k] != '') {
+							if (char != game[i][j][k]) {
+								if (!cell.classList.contains('player')) {
+									cell.classList.add('player');
+								}
+							} else {
+								if (!cell.classList.contains('enemy')) {
+									cell.classList.add('enemy');
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		default: break;
 	}

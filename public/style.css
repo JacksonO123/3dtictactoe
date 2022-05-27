@@ -140,6 +140,9 @@ label {
 
 .selected > * {
 	background: black;
+	border-color: black;
+	border-width: 4px;
+	opacity: 0.25;
 }
 
 button {
@@ -182,4 +185,14 @@ button:hover {
 	to {
 		opacity: 0;
 	}
+}
+
+.player div {
+	background: green;
+	opacity: 0.4;
+}
+
+.enemy div {
+	background: red;
+	opacity: 0.4;
 }

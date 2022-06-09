@@ -1,6 +1,6 @@
 const port = 3000;
-const client = new WebSocket(`ws://localhost:${port}`);
-// const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+// const client = new WebSocket(`ws://localhost:${port}`);
+const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
 
 let game = [];
 let char = '';

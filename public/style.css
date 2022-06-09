@@ -4,6 +4,7 @@
 	--orange: #e67e22;
   --boxBorder: 1px solid black;
   --primary: #007bff;
+	--perspective: 800px;
 }
 
 * {
@@ -18,7 +19,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	perspective: 800px;
+	perspective: var(--perspective);
 }
 
 tic-tac-toe {

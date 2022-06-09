@@ -1,6 +1,6 @@
 const port = 3000;
-// const client = new WebSocket(`ws://localhost:${port}`);
-const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+const client = new WebSocket(`ws://localhost:${port}`);
+// const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
 
 let game = [];
 let char = '';
@@ -81,7 +81,53 @@ client.onclose = () => {
 	console.log('websocket closed');
 }
 
+// -----classes----------------------------->
+
+class Point {
+	constructor(x, y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+
 // -----functions--------------------------->
+
+let dragging = false;
+let previous;
+let current;
+
+addEventListener('mousedown', e => {
+	previous = new Point(e.clientX, e.clientY);
+	dragging = true;
+});
+
+addEventListener('mousemove', e => {
+	if (dragging) {
+		current = new Point(e.clientX, e.clientY);
+		const diffX = current.x - previous?.x;
+		const diffY = current.y - previous?.y;
+		const perspective = +getComputedStyle(document.body).perspective.match(/\d+/)[0];
+		const angleScale = 10;
+		const angleX = Math.atan2(diffX, perspective) * 180 / Math.PI;
+		const angleY = Math.atan2(diffY, pythag(diffX, perspective)) * 180 / Math.PI;
+		console.log(angleX, angleY);
+
+		get('xd').value = +get('xd').value - (angleY * angleScale);
+		get('yd').value = +get('yd').value + (angleX * angleScale);
+		handleRotateX(+get('xd').value);
+		handleRotateY(+get('yd').value);
+
+		previous = current;
+	}
+});
+
+addEventListener('mouseup', () => {
+	dragging = false;
+});
+
+function pythag(x, y) {
+	return Math.sqrt(x * x + y * y);
+}
 
 function sendInfo() {
 	const game = get('game');

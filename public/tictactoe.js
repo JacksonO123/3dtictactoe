@@ -11,11 +11,9 @@ client.onopen = () => {
 
 client.onmessage = msg => {
 	msg = JSON.parse(msg.data);
-	console.log(msg.req);
 	switch (msg.req) {
 		case 'char': {
 			char = msg.data.char;
-			console.log(msg.data);
 			break;
 		}
 		case 'stay-alive': {
@@ -42,7 +40,6 @@ client.onmessage = msg => {
 		}
 		case 'game_data': {
 			game = msg.data.game;
-			console.log(game);
 			for (let i = 0; i < game.length; i++) {
 				for (let j = 0; j < game[i].length; j++) {
 					for (let k = 0; k < game[i][j].length; k++) {
@@ -57,10 +54,24 @@ client.onmessage = msg => {
 									cell.classList.add('enemy');
 								}
 							}
+						} else {
+							cell.classList.remove('player');
+							cell.classList.remove('enemy');
 						}
 					}
 				}
 			}
+			break;
+		}
+		case 'winner': {
+			const endGameUi = get('end-game');
+			endGameUi.style.display = 'flex';
+			if (msg.data.winner) {
+				get('end-game-status').innerText = 'You Win!';
+			} else {
+				get('end-game-status').innerText = 'You Lose.';
+			}
+			break;
 		}
 		default: break;
 	}
@@ -82,8 +93,11 @@ function sendInfo() {
 			z: game.z
 		}
 	};
-	console.log(posObj);
 	client.send(JSON.stringify(posObj));
+}
+
+function reloadPage() {
+	location.reload();
 }
 
 function get(id) {

@@ -150,7 +150,7 @@ button {
     flex: 1 1 auto;
     border: none;
     border-radius: 4px;
-    background: white;
+    background: transparent;
     color: var(--primary);
     transition: 0.15s;
     cursor: pointer;
@@ -158,6 +158,46 @@ button {
 
 button:hover {
     background: rgba(0, 123, 255, 0.25);
+}
+
+.end-game {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 10;
+	background:rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(4px);
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.end-game h1 {
+	margin: 0;
+	font-weight: 300;
+}
+
+.end-game button {
+	flex: none;
+	padding-left: 24px;
+	padding-right: 24px;
+}
+
+.card {
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	background: white;
+	border: none;
+	border-radius: 4px;
+	min-width: 250px;
+	box-shadow: 0 15px 24px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes startRotate {

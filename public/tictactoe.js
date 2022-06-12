@@ -1,9 +1,16 @@
 const port = 3000;
-// const client = new WebSocket(`ws://localhost:${port}`);
-const client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+let client;
 
 let game = [];
 let char = '';
+
+connect();
+
+function connect() {
+	console.log('connecting...');
+	client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
+	// client = new WebSocket(`ws://localhost:${port}`);
+}
 
 client.onopen = () => {
 	console.log('websocket open');
@@ -78,7 +85,7 @@ client.onmessage = msg => {
 }
 
 client.onclose = () => {
-	console.log('websocket closed');
+	connect();
 }
 
 // -----classes----------------------------->

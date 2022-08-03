@@ -4,13 +4,11 @@ let client;
 let game = [];
 let char = '';
 
-connect();
-
-function connect() {
+(() => {
 	console.log('connecting...');
 	client = new WebSocket(`wss://the3dtictactoe.herokuapp.com`);
 	// client = new WebSocket(`ws://localhost:${port}`);
-}
+})();
 
 client.onopen = () => {
 	console.log('websocket open');

@@ -104,7 +104,7 @@ let previous;
 let current;
 
 addEventListener('mousedown', e => {
-	if (e.target.id !== 'controls') {
+	if (e.target.id === 'game-overlay') {
 		previous = new Point(e.clientX, e.clientY);
 		dragging = true;
 	}

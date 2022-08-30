@@ -104,8 +104,10 @@ let previous;
 let current;
 
 addEventListener('mousedown', e => {
-	previous = new Point(e.clientX, e.clientY);
-	dragging = true;
+	if (e.target.id !== 'controls') {
+		previous = new Point(e.clientX, e.clientY);
+		dragging = true;
+	}
 });
 
 addEventListener('mousemove', e => {

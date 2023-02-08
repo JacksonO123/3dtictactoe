@@ -123,7 +123,6 @@ addEventListener('mousemove', e => {
     const angleX = (Math.atan2(diffX, perspective) * 180) / Math.PI;
     const angleY =
       (Math.atan2(diffY, pythag(diffX, perspective)) * 180) / Math.PI;
-    console.log(angleX, angleY);
 
     get('xd').value = +get('xd').value - angleY * angleScale;
     get('yd').value = +get('yd').value + angleX * angleScale;

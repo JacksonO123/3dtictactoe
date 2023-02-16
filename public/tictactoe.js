@@ -211,7 +211,7 @@ class ThreeBox extends HTMLElement {
     this.id = this.getAttribute('position');
     this.style.transform = `translateX(${x * blockSize}px) translateY(${
       y * blockSize
-    }px) translateZ(${z * blockSize + 1}px)`;
+    }px) translateZ(${z * blockSize - blockSize / 2}px)`;
     this.setSize(this, blockSize);
     const top = h('div');
     top.classList.add('top');

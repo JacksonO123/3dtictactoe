@@ -2,16 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <link
+      rel="stylesheet"
+      href="style.css"
+    />
     <title>3d Tic Tac Toe</title>
   </head>
   <body id="body">
     <div class="controls">
-      <div class="inner-wrapper not-turn" id="controls">
+      <div
+        class="inner-wrapper not-turn"
+        id="controls"
+      >
         <div class="row">
-          <label for="xd" id="xdeg">X deg: -35</label>
+          <label
+            for="xd"
+            id="xdeg"
+            >X deg: -35</label
+          >
           <input
             id="xd"
             type="range"
@@ -22,7 +38,11 @@
           />
         </div>
         <div class="row">
-          <label for="yd" id="ydeg">Y deg: 35</label>
+          <label
+            for="yd"
+            id="ydeg"
+            >Y deg: 35</label
+          >
           <input
             id="yd"
             type="range"
@@ -33,7 +53,11 @@
           />
         </div>
         <div class="row">
-          <label for="zd" id="zdeg">Z deg: 0</label>
+          <label
+            for="zd"
+            id="zdeg"
+            >Z deg: 0</label
+          >
           <input
             id="zd"
             type="range"
@@ -45,7 +69,11 @@
         </div>
         <hr />
         <div class="row">
-          <label for="x" id="xl">X: 1</label>
+          <label
+            for="x"
+            id="xl"
+            >X: 1</label
+          >
           <input
             id="x"
             type="range"
@@ -56,7 +84,11 @@
           />
         </div>
         <div class="row">
-          <label for="y" id="yl">Y: 1</label>
+          <label
+            for="y"
+            id="yl"
+            >Y: 1</label
+          >
           <input
             id="y"
             type="range"
@@ -67,7 +99,11 @@
           />
         </div>
         <div class="row">
-          <label for="z" id="zl">Z: 1</label>
+          <label
+            for="z"
+            id="zl"
+            >Z: 1</label
+          >
           <input
             id="z"
             type="range"
@@ -79,11 +115,19 @@
         </div>
         <hr />
         <div class="row">
-          <button id="send-btn" onclick="sendInfo()">Send</button>
+          <button
+            id="send-btn"
+            onclick="sendInfo()"
+          >
+            Send
+          </button>
         </div>
       </div>
     </div>
-    <div class="end-game" id="end-game">
+    <div
+      class="end-game"
+      id="end-game"
+    >
       <div class="card">
         <h1 id="end-game-status">epic</h1>
         <button onclick="reloadPage()">Play Again</button>
@@ -91,6 +135,9 @@
     </div>
     <tic-tac-toe size="200"></tic-tac-toe>
     <div id="game-overlay"></div>
-    <script src="tictactoe.js"></script>
+    <script
+      src="main.ts"
+      type="module"
+    ></script>
   </body>
 </html>

@@ -4,8 +4,6 @@ let client: WebSocket;
 let game: charType[][][] = [];
 let char = '';
 
-let connectTimeout = '';
-
 connect();
 
 function connect() {
@@ -38,6 +36,7 @@ function connect() {
       case 'turn-data': {
         const controls = get('controls');
         if (!controls) break;
+        console.log(msg.data.turn);
         if (msg.data.turn) {
           controls.classList.remove('not-turn');
         } else {
@@ -172,7 +171,7 @@ function pythag(x: number, y: number) {
   return Math.sqrt(x * x + y * y);
 }
 
-function sendInfo() {
+(window as any).sendInfo = () => {
   const game = get('game') as TicTacToe;
   const posObj = {
     req: 'play-data',
@@ -183,11 +182,9 @@ function sendInfo() {
     },
   };
   client.send(JSON.stringify(posObj));
-}
+};
 
-function reloadPage() {
-  location.reload();
-}
+(window as any).reloadPage = () => location.reload();
 
 function get(id: string) {
   return document.getElementById(id);
@@ -215,29 +212,29 @@ function handleRotateY(val: number) {
   ydeg.innerHTML = `X deg: ${val}`;
 }
 
-function handleXChange(val: number) {
+(window as any).handleXChange = (val: number) => {
   const game = get('game') as TicTacToe;
   const xl = get('xl');
   if (!game || !xl) return;
   game.setX(val);
   xl.innerHTML = `X: ${val + 1}`;
-}
+};
 
-function handleYChange(val: number) {
+(window as any).handleYChange = (val: number) => {
   const game = get('game') as TicTacToe;
   const yl = get('yl');
   if (!game || !yl) return;
   game.setY(val);
   yl.innerHTML = `Y: ${val + 1}`;
-}
+};
 
-function handleZChange(val: number) {
+(window as any).handleZChange = (val: number) => {
   const game = get('game') as TicTacToe;
   const zl = get('zl');
   if (!game || !zl) return;
   game.setZ(val);
   zl.innerHTML = `Z: ${val + 1}`;
-}
+};
 
 // -----ui init----------------------------->
 

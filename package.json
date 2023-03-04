@@ -4,7 +4,8 @@
   "description": "3dtictactoe",
   "main": "index.js",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",

@@ -8,8 +8,8 @@ connect();
 
 function connect() {
   console.log("connecting...");
-  // client = new WebSocket(`wss://threed-tic-tac-toe-server.onrender.com`);
-  client = new WebSocket(`ws://localhost:${port}`);
+  client = new WebSocket(`wss://threed-tic-tac-toe-server.onrender.com`);
+  // client = new WebSocket(`ws://localhost:${port}`);
 
   client.onopen = () => {
     console.log("connected");

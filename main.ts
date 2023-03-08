@@ -2,86 +2,85 @@ const port = 3000;
 let client: WebSocket;
 
 let game: charType[][][] = [];
-let char = '';
+let char = "";
 
 connect();
 
 function connect() {
-  console.log('connecting...');
-  client = new WebSocket(`wss://threed-tic-tac-toe-server.onrender.com`);
-  // client = new WebSocket(`ws://localhost:${port}`);
+  console.log("connecting...");
+  // client = new WebSocket(`wss://threed-tic-tac-toe-server.onrender.com`);
+  client = new WebSocket(`ws://localhost:${port}`);
 
   client.onopen = () => {
-    console.log('websocket open');
+    console.log("connected");
   };
 
   client.onmessage = (input: any) => {
     const msg = JSON.parse(input.data) as msgType;
     switch (msg.req) {
-      case 'char': {
+      case "char": {
         char = msg.data.char;
         break;
       }
-      case 'stay-alive': {
+      case "stay-alive": {
         const obj = {
-          req: 'stay-alive',
+          req: "stay-alive",
         };
         client.send(JSON.stringify(obj));
         break;
       }
-      case 'too-many-players': {
-        alert('There are too many players, wait until a spot opens up');
+      case "too-many-players": {
+        alert("There are too many players, wait until a spot opens up");
         break;
       }
-      case 'turn-data': {
-        const controls = get('controls');
+      case "turn-data": {
+        const controls = get("controls");
         if (!controls) break;
-        console.log(msg.data.turn);
         if (msg.data.turn) {
-          controls.classList.remove('not-turn');
+          controls.classList.remove("not-turn");
         } else {
-          if (!controls.classList.contains('not-turn')) {
-            controls.classList.add('not-turn');
+          if (!controls.classList.contains("not-turn")) {
+            controls.classList.add("not-turn");
           }
         }
         break;
       }
-      case 'game-data': {
+      case "game-data": {
         game = msg.data.game;
         for (let i = 0; i < game.length; i++) {
           for (let j = 0; j < game[i].length; j++) {
             for (let k = 0; k < game[i][j].length; k++) {
               const cell = get(`${i};${j};${k}`);
               if (!cell) continue;
-              if (game[i][j][k] != '') {
+              if (game[i][j][k] != "") {
                 if (char == game[i][j][k]) {
-                  if (!cell.classList.contains('player')) {
-                    cell.classList.add('player');
+                  if (!cell.classList.contains("player")) {
+                    cell.classList.add("player");
                   }
                 } else {
-                  if (!cell.classList.contains('enemy')) {
-                    cell.classList.add('enemy');
+                  if (!cell.classList.contains("enemy")) {
+                    cell.classList.add("enemy");
                   }
                 }
               } else {
-                cell.classList.remove('player');
-                cell.classList.remove('enemy');
+                cell.classList.remove("player");
+                cell.classList.remove("enemy");
               }
             }
           }
         }
         break;
       }
-      case 'winner': {
-        const endGameUi = get('end-game');
+      case "winner": {
+        const endGameUi = get("end-game");
         if (!endGameUi) break;
-        endGameUi.style.display = 'flex';
-        const status = get('end-game-status');
+        endGameUi.style.display = "flex";
+        const status = get("end-game-status");
         if (!status) break;
         if (msg.data.winner) {
-          status.innerText = 'You Win!';
+          status.innerText = "You Win!";
         } else {
-          status.innerText = 'You Lose.';
+          status.innerText = "You Lose.";
         }
         break;
       }
@@ -95,16 +94,16 @@ function connect() {
   };
 }
 
-type charType = 'X' | 'O' | '';
+type charType = "X" | "O" | "";
 
 type msgType = {
   req:
-    | 'char'
-    | 'stay-alive'
-    | 'too-many-players'
-    | 'turn-data'
-    | 'game-data'
-    | 'winner';
+    | "char"
+    | "stay-alive"
+    | "too-many-players"
+    | "turn-data"
+    | "game-data"
+    | "winner";
   data: {
     game: charType[][][];
     char: charType;
@@ -130,15 +129,15 @@ let dragging = false;
 let previous = new Point(0, 0);
 let current = new Point(0, 0);
 
-addEventListener('mousedown', e => {
+addEventListener("mousedown", (e) => {
   // @ts-ignore
-  if (e.target.id === 'game-overlay') {
+  if (e.target.id === "game-overlay") {
     previous = new Point(e.clientX, e.clientY);
     dragging = true;
   }
 });
 
-addEventListener('mousemove', e => {
+addEventListener("mousemove", (e) => {
   if (dragging) {
     current = new Point(e.clientX, e.clientY);
     const diffX = current.x - previous?.x;
@@ -151,11 +150,11 @@ addEventListener('mousemove', e => {
     const angleY =
       (Math.atan2(diffY, pythag(diffX, perspective)) * 180) / Math.PI;
 
-    const xd = get('xd') as HTMLInputElement;
-    const yd = get('yd') as HTMLInputElement;
+    const xd = get("xd") as HTMLInputElement;
+    const yd = get("yd") as HTMLInputElement;
     if (!xd || !yd) return;
-    xd.value = +xd.value - angleY * angleScale + '';
-    yd.value = +yd.value + angleX * angleScale + '';
+    xd.value = +xd.value - angleY * angleScale + "";
+    yd.value = +yd.value + angleX * angleScale + "";
     handleRotateX(+xd.value);
     handleRotateY(+yd.value);
 
@@ -163,7 +162,7 @@ addEventListener('mousemove', e => {
   }
 });
 
-addEventListener('mouseup', () => {
+addEventListener("mouseup", () => {
   dragging = false;
 });
 
@@ -172,9 +171,9 @@ function pythag(x: number, y: number) {
 }
 
 (window as any).sendInfo = () => {
-  const game = get('game') as TicTacToe;
+  const game = get("game") as TicTacToe;
   const posObj = {
-    req: 'play-data',
+    req: "play-data",
     data: {
       x: game.x,
       y: game.y,
@@ -195,8 +194,8 @@ function h(type: string) {
 }
 
 function handleRotateX(val: number) {
-  const game = get('game') as TicTacToe;
-  const xdeg = get('xdeg') as HTMLInputElement;
+  const game = get("game") as TicTacToe;
+  const xdeg = get("xdeg") as HTMLInputElement;
   if (!game || !xdeg) return;
   game.xDeg = val;
   game.rotate();
@@ -204,8 +203,8 @@ function handleRotateX(val: number) {
 }
 
 function handleRotateY(val: number) {
-  const game = get('game') as TicTacToe;
-  const ydeg = get('ydeg') as HTMLInputElement;
+  const game = get("game") as TicTacToe;
+  const ydeg = get("ydeg") as HTMLInputElement;
   if (!game || !ydeg) return;
   game.yDeg = val;
   game.rotate();
@@ -213,24 +212,24 @@ function handleRotateY(val: number) {
 }
 
 (window as any).handleXChange = (val: number) => {
-  const game = get('game') as TicTacToe;
-  const xl = get('xl');
+  const game = get("game") as TicTacToe;
+  const xl = get("xl");
   if (!game || !xl) return;
   game.setX(val);
   xl.innerHTML = `X: ${val + 1}`;
 };
 
 (window as any).handleYChange = (val: number) => {
-  const game = get('game') as TicTacToe;
-  const yl = get('yl');
+  const game = get("game") as TicTacToe;
+  const yl = get("yl");
   if (!game || !yl) return;
   game.setY(val);
   yl.innerHTML = `Y: ${val + 1}`;
 };
 
 (window as any).handleZChange = (val: number) => {
-  const game = get('game') as TicTacToe;
-  const zl = get('zl');
+  const game = get("game") as TicTacToe;
+  const zl = get("zl");
   if (!game || !zl) return;
   game.setZ(val);
   zl.innerHTML = `Z: ${val + 1}`;
@@ -242,36 +241,36 @@ class ThreeBox extends HTMLElement {
   id: string;
   constructor() {
     super();
-    this.id = '';
+    this.id = "";
   }
   connectedCallback() {
-    let blockSize = +(this.getAttribute('size') || 50);
-    let [x, y, z] = this.getAttribute('position')!.split(';').map(Number);
-    this.id = this.getAttribute('position') || '';
+    let blockSize = +(this.getAttribute("size") || 50);
+    let [x, y, z] = this.getAttribute("position")!.split(";").map(Number);
+    this.id = this.getAttribute("position") || "";
     this.style.transform = `translateX(${x * blockSize}px) translateY(${
       y * blockSize
     }px) translateZ(${z * blockSize - blockSize / 2}px)`;
     this.setSize(this, blockSize);
-    const top = h('div');
-    top.classList.add('top');
+    const top = h("div");
+    top.classList.add("top");
     this.setSize(top, blockSize);
-    const bottom = h('div');
-    bottom.classList.add('bottom');
+    const bottom = h("div");
+    bottom.classList.add("bottom");
     this.setSize(bottom, blockSize);
-    const left = h('div');
-    left.classList.add('left');
+    const left = h("div");
+    left.classList.add("left");
     this.setSize(left, blockSize);
-    const right = h('div');
-    right.classList.add('right');
+    const right = h("div");
+    right.classList.add("right");
     this.setSize(right, blockSize);
-    const front = h('div');
-    front.classList.add('front');
+    const front = h("div");
+    front.classList.add("front");
     this.setSize(front, blockSize);
-    const back = h('div');
-    back.classList.add('back');
+    const back = h("div");
+    back.classList.add("back");
     back.style.transform = `translateZ(${-blockSize}px)`;
     this.setSize(back, blockSize);
-    this.innerHTML = '';
+    this.innerHTML = "";
     this.appendChild(top);
     this.appendChild(bottom);
     this.appendChild(left);
@@ -316,16 +315,16 @@ class TicTacToe extends HTMLElement {
     this.setSelectedSquare();
   }
   connectedCallback() {
-    this.id = 'game';
+    this.id = "game";
     let blockSize = 50;
-    if (this.hasAttribute('size')) {
-      const gameSize = +(this.getAttribute('size') || 200);
+    if (this.hasAttribute("size")) {
+      const gameSize = +(this.getAttribute("size") || 200);
       this.style.width = `${gameSize}px`;
       this.style.height = `${gameSize}px`;
       blockSize = Math.floor(gameSize / 3);
     }
     if (blockSize == null) {
-      console.warn('tic-tac-toe element must have attribute: size');
+      console.warn("tic-tac-toe element must have attribute: size");
       return;
     }
     for (let i = 0; i < 3; i++) {
@@ -333,8 +332,8 @@ class TicTacToe extends HTMLElement {
       for (let j = 0; j < 3; j++) {
         game[i][j] = [];
         for (let k = 0; k < 3; k++) {
-          game[i][j][k] = '';
-          const block = `<three-box size="${blockSize}" position="${i};${j};${k}"></three-box>`;
+          game[i][j][k] = "";
+          const block = `<three-box size="${blockSize}" id="${i};${j};${k}" position="${i};${j};${k}"></three-box>`;
           this.innerHTML += block;
         }
       }
@@ -347,18 +346,18 @@ class TicTacToe extends HTMLElement {
         for (let k = 0; k < 3; k++) {
           const box = get(`${i};${j};${k}`);
           if (!box) continue;
-          box.classList.remove('selected');
+          box.classList.remove("selected");
         }
       }
     }
     const box = get(`${this.x};${this.y};${this.z}`);
     if (!box) return;
-    box.classList.add('selected');
+    box.classList.add("selected");
   }
   rotate() {
     this.style.transform = `rotateX(${this.xDeg}deg) rotateY(${this.yDeg}deg) rotateZ(${this.zDeg}deg)`;
   }
 }
 
-customElements.define('three-box', ThreeBox);
-customElements.define('tic-tac-toe', TicTacToe);
+customElements.define("three-box", ThreeBox);
+customElements.define("tic-tac-toe", TicTacToe);
